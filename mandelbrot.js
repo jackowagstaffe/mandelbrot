@@ -2,8 +2,6 @@
 const width = 1000
 const height = 1000
 
-const zoomAmount = 1
-
 // Mandelbrot Functions
 
 /**
@@ -40,11 +38,11 @@ const mandelbrot = (canvas, width, height, colourMap = (n) => [n, n, n], zoomLev
  * Get data for a pixel of the Mandelbrot
  */
 const getMandelbrotPixel = (width, height, x, y, zoomLevel, offsetX, offsetY) => {
-  const minX = (-1.4 + (offsetX / width * 2)) / zoomLevel
-  const maxX = (0.6 + (offsetX / width * 2)) / zoomLevel
-  const minY = (-1 + (offsetY / width * 2)) / zoomLevel
-  const maxY = (1 + (offsetY / width * 2)) / zoomLevel
-  const maxIterations = 50
+  const minX = ((-2 / zoomLevel) + (offsetX / width * 2)) 
+  const maxX = ((2 / zoomLevel) + (offsetX / width * 2)) 
+  const minY = ((-2 / zoomLevel) + (offsetY / width * 2))
+  const maxY = ((2 / zoomLevel) + (offsetY / width * 2))
+  const maxIterations = 1000
 
   // Map the a and b values to the x and y size
   const initialA = minX + ((x / width) * (maxX - minX))
@@ -122,9 +120,9 @@ window.onload = () => {
     const x = event.clientX - rect.left
     const y = event.clientY - rect.top
     
-    zoomLevel += zoomAmount
-    offsetX += x - (width / 2)
-    offsetY += y - (height / 2)
+    offsetX += (x - (width / 2)) / zoomLevel
+    offsetY += (y - (height / 2)) / zoomLevel
+    zoomLevel = zoomLevel * 2
 
     mandelbrot(canvas, width, height, colourMap, zoomLevel, offsetX, offsetY)
   }
