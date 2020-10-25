@@ -1,6 +1,7 @@
 // Settings
 const width = 1000
 const height = 1000
+const maxIterations = 1000
 
 // Mandelbrot Functions
 
@@ -42,7 +43,6 @@ const getMandelbrotPixel = (width, height, x, y, zoomLevel, offsetX, offsetY) =>
   const maxX = ((2 / zoomLevel) + (offsetX / width * 2)) 
   const minY = ((-2 / zoomLevel) + (offsetY / width * 2))
   const maxY = ((2 / zoomLevel) + (offsetY / width * 2))
-  const maxIterations = 1000
 
   // Map the a and b values to the x and y size
   const initialA = minX + ((x / width) * (maxX - minX))
@@ -52,13 +52,13 @@ const getMandelbrotPixel = (width, height, x, y, zoomLevel, offsetX, offsetY) =>
   let b = initialB
   let n = 0
   while (n < maxIterations) {
-     const newA = ((a * a) - (b * b)) + initialA
-     const newB = (2 * a * b) + initialB
+     const newA = (Math.pow(a, 2) - Math.pow(b, 2)) + initialA // The real part of the complex number
+     const newB = (2 * a * b) + initialB // The imaginary part of the complex number
 
      a = newA
      b = newB
 
-     if (Math.abs(a + b) > 16) { // test to find if the absolute value is tending towards infinity (50 in this case)
+     if (Math.abs(a + b) > 20) { // test to find if the absolute value is tending towards infinity (50 in this case)
        break
      }
 
